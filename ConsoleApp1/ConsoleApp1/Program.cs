@@ -43,7 +43,7 @@ while (true)
             case "nesmrdí vůbec": Console.ForegroundColor = ConsoleColor.Green; break;
         }
         Console.WriteLine($"{smradoch.Value}");
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Gray;
     }
 
 }
