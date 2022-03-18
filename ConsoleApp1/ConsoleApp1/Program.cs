@@ -13,7 +13,7 @@ while (true)
         soucet += (int) jmeno[i];
     }
     prumer = (float) soucet / jmeno.Length;
-    if (Math.Round(prumer) % 7 == 0)
+    if (Math.Round(prumer) % 7 == 0 || jmeno.ToUpper() == "HONZA RADA")
     {
         smrad = "smrdí jako bolavá noha bezdomovce";
     }
