@@ -1,5 +1,5 @@
 ﻿using System;
-int soucet,pocet;
+int soucet;
 string smrad = "";
 float prumer;
 Dictionary<string, string> smradosi = new Dictionary<string, string>();
@@ -8,20 +8,20 @@ while (true)
     soucet = 0;
     Console.WriteLine("\nZadejte jméno smraďocha:");
     string jmeno = Console.ReadLine();
-    for (pocet = 0; pocet < jmeno.Length; pocet++)
+    for (int i = 0; i < jmeno.Length; i++)
     {
-        soucet += (int) jmeno[pocet];
+        soucet += (int) jmeno[i];
     }
-    prumer = (float) soucet /pocet;
-    if ((int)prumer % 7 == 0)
+    prumer = (float) soucet / jmeno.Length;
+    if (Math.Round(prumer) % 7 == 0)
     {
         smrad = "smrdí jako bolavá noha bezdomovce";
     }
-    else if ((int)prumer % 5 == 0)
+    else if (Math.Round(prumer) % 5 == 0)
     {
         smrad = "smrdí jako koňská řiť";
     }
-    else if ((int)prumer % 3 == 0)
+    else if (Math.Round(prumer) % 3 == 0)
     {
         smrad = "smrdí jako cibuláč";
     }
