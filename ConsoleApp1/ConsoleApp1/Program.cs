@@ -1,4 +1,5 @@
-﻿int soucet,pocet;
+﻿using System;
+int soucet,pocet;
 string smrad = "";
 float prumer;
 Dictionary<string, string> smradosi = new Dictionary<string, string>();
@@ -33,7 +34,16 @@ while (true)
     Console.WriteLine("\nTabulka smraďochů:\n------------------");
     foreach (KeyValuePair<string,string> smradoch in smradosi)
     {
-        Console.WriteLine($"{smradoch.Key} \t {smradoch.Value}");
+        Console.Write($"{smradoch.Key}\t");
+        switch (smradoch.Value)
+        {
+            case "smrdí jako bolavá noha bezdomovce": Console.ForegroundColor = ConsoleColor.Red; break;
+            case "smrdí jako koňská řiť": Console.ForegroundColor = ConsoleColor.DarkYellow; break;
+            case "smrdí jako cibuláč": Console.ForegroundColor = ConsoleColor.Yellow; break;
+            case "nesmrdí vůbec": Console.ForegroundColor = ConsoleColor.Green; break;
+        }
+        Console.WriteLine($"{smradoch.Value}");
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
 }
