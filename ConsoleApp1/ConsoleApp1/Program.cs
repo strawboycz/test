@@ -45,5 +45,5 @@ while (true)
         Console.WriteLine($"{smradoch.Value}");
         Console.ForegroundColor = ConsoleColor.Gray;
     }
-
+   
 }
