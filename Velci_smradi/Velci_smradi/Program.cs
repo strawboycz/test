@@ -20,25 +20,33 @@ namespace Velci_smradi
             {
                 
                 var name = getName();
+
                 if (maybeExit(name)) 
                     return;
                 if (mabeSave(name, smellyBoys)) 
                     continue;
+                if (checkForDuplicateName(smellyBoys, name)) continue;
 
                 var level = calculateSmell(name);
                 addPlayer(name, level, smellyBoys);
 
                 printTable(smellyBoys);
 
-                Console.WriteLine();
-                Console.WriteLine();
+                
 
             }
         }
 
+        private static bool checkForDuplicateName(Dictionary<string, SmellLevel> smellyBoys, string name)
+        {
+            if (smellyBoys.ContainsKey(name))
+            {
+                Console.WriteLine("\nTento smraďoch již existuje!\n");
+                return true;
+            }
 
-
-
+            return false;
+        }
 
 
         private static void loadTable(Dictionary<string, SmellLevel> smellyBoys)
@@ -71,8 +79,7 @@ namespace Velci_smradi
                 }
 
                 printTable(smellyBoys);
-                Console.WriteLine();
-                Console.WriteLine();
+                
             }
         }
 
@@ -139,6 +146,8 @@ namespace Velci_smradi
                 }
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
         private static SmellLevel calculateSmell(string name)
