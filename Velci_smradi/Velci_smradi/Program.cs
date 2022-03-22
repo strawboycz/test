@@ -178,10 +178,9 @@ namespace Velci_smradi
 
         private static string getName()
         {
-            string name;
             Console.Write("Zadejte jméno smraďocha: ");
-            name = Console.ReadLine();
-            return name;
+            return  Console.ReadLine();
+            
         }
     }
 }
