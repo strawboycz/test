@@ -54,7 +54,6 @@ namespace Velci_smradi
             if (File.Exists("C://tmp/smradosi.txt"))
             {
                 var lines = File.ReadAllLines("C://tmp/smradosi.txt");
-                //if (lines.Length == 0) return;
                 foreach (var line in lines)
                 {
                     if (line.Length == 0) return;
