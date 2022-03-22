@@ -14,8 +14,8 @@ namespace Velci_smradi
         static void Main(string[] args)
         {
             Dictionary<string, SmellLevel> smellyBoys = new Dictionary<string, SmellLevel>();
-
-            loadTable(smellyBoys);
+            const char separator = ';';
+            loadTable(smellyBoys,separator);
             while (true)
             {
                 
@@ -23,7 +23,7 @@ namespace Velci_smradi
 
                 if (maybeExit(name)) 
                     return;
-                if (mabeSave(name, smellyBoys)) 
+                if (mabeSave(name, smellyBoys, separator)) 
                     continue;
                 if (checkForDuplicateName(smellyBoys, name)) continue;
 
@@ -49,7 +49,7 @@ namespace Velci_smradi
         }
 
 
-        private static void loadTable(Dictionary<string, SmellLevel> smellyBoys)
+        private static void loadTable(Dictionary<string, SmellLevel> smellyBoys, char separator)
         {
             if (File.Exists("C://tmp/smradosi.txt"))
             {
@@ -58,7 +58,7 @@ namespace Velci_smradi
                 foreach (var line in lines)
                 {
                     if (line.Length == 0) return;
-                    int split = line.IndexOf('\t');
+                    int split = line.IndexOf(separator);
                     var name = line.Substring(0, split);
                     var level = line.Substring(split + 1);
                     switch (level)
@@ -96,14 +96,14 @@ namespace Velci_smradi
             smellyBoys.Add(name, level);
         }
 
-        private static bool mabeSave(string name, Dictionary<string, SmellLevel> smellyBoys)
+        private static bool mabeSave(string name, Dictionary<string, SmellLevel> smellyBoys, char separator)
         {
             if (name == Texts.SaveKeyword)
             {
                 File.Delete("C://tmp/smradosi.txt");
                 foreach (KeyValuePair<string, SmellLevel> smellyBoy in smellyBoys)
                 {
-                    File.AppendAllText("C://tmp/smradosi.txt", $"{smellyBoy.Key}\t{smellyBoy.Value}\n");
+                    File.AppendAllText("C://tmp/smradosi.txt", $"{smellyBoy.Key}{separator}{smellyBoy.Value}\n");
                 }
 
                 Console.WriteLine("Saved successfully");
@@ -165,18 +165,15 @@ namespace Velci_smradi
             {
                 return SmellLevel.HobosLeg;
             }
-            else if (Math.Round(avg) % 5 == 0)
+            if (Math.Round(avg) % 5 == 0)
             {
                 return SmellLevel.HorseAss;
             }
-            else if (Math.Round(avg) % 3 == 0)
+            if (Math.Round(avg) % 3 == 0)
             {
                 return SmellLevel.OnionRinger;
             }
-            else
-            {
-                return SmellLevel.None;
-            }
+            return SmellLevel.None;
         }
 
         private static string getName()
