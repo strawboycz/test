@@ -14,8 +14,9 @@ namespace Velci_smradi
         static void Main(string[] args)
         {
             Dictionary<string, SmellLevel> smellyBoys = new Dictionary<string, SmellLevel>();
+            const string filePath = "C://tmp/smradosi.txt";
             const char separator = ';';
-            loadTable(smellyBoys,separator);
+            loadTable(smellyBoys,separator,filePath);
             while (true)
             {
                 
@@ -23,7 +24,7 @@ namespace Velci_smradi
 
                 if (maybeExit(name)) 
                     return;
-                if (mabeSave(name, smellyBoys, separator)) 
+                if (mabeSave(name, smellyBoys, separator, filePath)) 
                     continue;
                 if (checkForDuplicateName(smellyBoys, name)) continue;
 
@@ -49,11 +50,11 @@ namespace Velci_smradi
         }
 
 
-        private static void loadTable(Dictionary<string, SmellLevel> smellyBoys, char separator)
+        private static void loadTable(Dictionary<string, SmellLevel> smellyBoys, char separator,string filePath)
         {
-            if (File.Exists("C://tmp/smradosi.txt"))
+            if (File.Exists(filePath))
             {
-                var lines = File.ReadAllLines("C://tmp/smradosi.txt");
+                var lines = File.ReadAllLines(filePath);
                 foreach (var line in lines)
                 {
                     if (line.Length == 0) return;
@@ -95,14 +96,14 @@ namespace Velci_smradi
             smellyBoys.Add(name, level);
         }
 
-        private static bool mabeSave(string name, Dictionary<string, SmellLevel> smellyBoys, char separator)
+        private static bool mabeSave(string name, Dictionary<string, SmellLevel> smellyBoys, char separator, string filePath)
         {
             if (name == Texts.SaveKeyword)
             {
-                File.Delete("C://tmp/smradosi.txt");
+                File.Delete(filePath);
                 foreach (KeyValuePair<string, SmellLevel> smellyBoy in smellyBoys)
                 {
-                    File.AppendAllText("C://tmp/smradosi.txt", $"{smellyBoy.Key}{separator}{smellyBoy.Value}\n");
+                    File.AppendAllText(filePath, $"{smellyBoy.Key}{separator}{smellyBoy.Value}\n");
                 }
 
                 Console.WriteLine("Saved successfully");
