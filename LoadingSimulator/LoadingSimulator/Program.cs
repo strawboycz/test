@@ -26,7 +26,7 @@ namespace LoadingSimulator
 
 			for (int i = 1; i <= TaskOneSteps; i++)
 			{
-				inctementBasicBar(i, ThirdDivisionChar, TaskOneSteps, 0);
+				inctementBasicBar(i, ThirdDivisionChar, TaskOneSteps, 0, 200);
 			}
 
 			#endregion
@@ -46,10 +46,9 @@ namespace LoadingSimulator
 			#region Task3
 
 			int taskThreeSteps = getRandomNumber(lowestSteps, highestSteps);
-			int taskThreeTimeOut = getRandomNumber(lowestTimeOut, higestTimeOut);
 			for (int i = 1; i <= taskThreeSteps; i++)
 			{
-				inctementBasicBar(i, ThirdDivisionChar, taskThreeSteps, 6);
+				inctementBasicBar(i, ThirdDivisionChar, taskThreeSteps, 6, getRandomNumber(lowestTimeOut, higestTimeOut));
 			}
 
 
@@ -59,11 +58,11 @@ namespace LoadingSimulator
 
 		#region Functions
 
-		private static void inctementBasicBar(int i, char barCharacter, int steps, int top)
+		private static void inctementBasicBar(int i, char barCharacter, int steps, int top, int timeOut)
 		{
 			Console.SetCursorPosition(i - 1, top);
 			Console.Write($"{barCharacter}  {i}/{steps} steps");
-			Thread.Sleep(200);
+			Thread.Sleep(timeOut);
 		}
 
 		private static int getRandomNumber(int low, int high)
