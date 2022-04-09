@@ -6,55 +6,50 @@ namespace LoadingSimulator
 {
 	internal class Program
 	{
-		const char ThirdDivisionChar = '\u2593';
-		const char SecondDivisionChar = '\u2592';
-		const char FirstDivisionChar = '\u2591';
+		
+
 		static void Main(string[] args)
 		{
+			#region Declarations
+
 			Console.OutputEncoding = Encoding.UTF8;
+			const int TaskOneSteps = 40;
+			const int TaskTwoSteps = 50;
+			const int lowestSteps = 1, highestSteps = 25, lowestTimeOut = 1, higestTimeOut = 500;
+			const char ThirdDivisionChar = '\u2593';
+			const char SecondDivisionChar = '\u2592';
+			const char FirstDivisionChar = '\u2591';
+
+			#endregion
 
 			#region Task1
 
-			const int taskOneSteps = 40;
-			string taskOneProgressBar="";
-			for (int i = 1; i <= taskOneSteps; i++)
+			for (int i = 1; i <= TaskOneSteps; i++)
 			{
-				Console.Clear();
-				taskOneProgressBar += ThirdDivisionChar;
-				Console.Write($"{taskOneProgressBar}  {i}/{taskOneSteps} steps");
-				Thread.Sleep(200);
+				inctementBasicBar(i, ThirdDivisionChar, TaskOneSteps, 0);
 			}
+
 			#endregion
 
 			#region Task2
 
-			const int taskTwoSteps = 50;
-			char[] taskTwoProgressBar = new char[taskTwoSteps+1];
-			fillBar(taskTwoSteps, taskTwoProgressBar);
-			int x = 0, y = 0;
-			while (x < taskTwoSteps)
+
+			prepareAdvancedBar(TaskTwoSteps, FirstDivisionChar , 3);
+
+			for (int i = 0; i < TaskTwoSteps; i++)
 			{
-				Console.Clear();
-				fillCharacterOfBar(y, taskTwoSteps, taskTwoProgressBar, x);
-				x = maybeIncrement(y, taskTwoSteps, taskTwoProgressBar, x);
-				printBar(taskTwoSteps, taskTwoProgressBar);
-				Console.WriteLine($"  {x}/{taskTwoSteps} steps");
-				y++;
-				Thread.Sleep(100);
+				incrementAdvancedBar(i,TaskTwoSteps,SecondDivisionChar,ThirdDivisionChar);
 			}
 
 			#endregion
 
 			#region Task3
-			Random randObj = new Random();
-			int taskThreeSteps = randObj.Next(1,25);
-			string taskThreeProgressBar = "";
+
+			int taskThreeSteps = getRandomNumber(lowestSteps, highestSteps);
+			int taskThreeTimeOut = getRandomNumber(lowestTimeOut, higestTimeOut);
 			for (int i = 1; i <= taskThreeSteps; i++)
 			{
-				Console.Clear();
-				taskThreeProgressBar += ThirdDivisionChar;
-				Console.Write($"{taskThreeProgressBar}  {i}/{taskThreeSteps} steps");
-				Thread.Sleep(randObj.Next(0,500));
+				inctementBasicBar(i, ThirdDivisionChar, taskThreeSteps, 6);
 			}
 
 
@@ -62,36 +57,40 @@ namespace LoadingSimulator
 
 		}
 
-		private static int maybeIncrement(int y, int taskTwoSteps, char[] taskTwoProgressBar, int x)
+		#region Functions
+
+		private static void inctementBasicBar(int i, char barCharacter, int steps, int top)
 		{
-			if (!((y == 0 || y % 2 != 0) && y != taskTwoSteps))
-			{
-				x++;
-			}
-			return x;
+			Console.SetCursorPosition(i - 1, top);
+			Console.Write($"{barCharacter}  {i}/{steps} steps");
+			Thread.Sleep(200);
 		}
 
-		private static void fillCharacterOfBar(int y, int taskTwoSteps, char[] taskTwoProgressBar, int x)
+		private static int getRandomNumber(int low, int high)
 		{
-			if ((y == 0 || y % 2 != 0) && y != taskTwoSteps)
-				taskTwoProgressBar[x] = SecondDivisionChar;
-			else
-			{
-				taskTwoProgressBar[x] = ThirdDivisionChar;
-			}
+			Random randObj = new Random();
+			return randObj.Next(low, high);
 		}
 
-		private static void printBar(int taskTwoSteps, char[] taskTwoProgressBar)
+		private static void incrementAdvancedBar(int i, int steps, char level2Char, char level3Char)
 		{
-			for (int j = 0; j < taskTwoSteps; j++)
-			{
-				Console.Write(taskTwoProgressBar[j]);
-			}
+			Console.SetCursorPosition(steps, 3);
+			Console.Write($"  {i + 1}/{steps} steps");
+			Console.SetCursorPosition(i, 3);
+			Console.Write(level2Char);
+			Thread.Sleep(100);
+			Console.SetCursorPosition(i, 3);
+			Console.Write(level3Char);
+			Thread.Sleep(100);
 		}
 
-		private static void fillBar(int taskTwoSteps, char[] taskTwoProgressBar)
+		private static void prepareAdvancedBar(int steps, char level1Char, int top)
 		{
-			for (int i = 0; i < taskTwoSteps; i++) taskTwoProgressBar[i] = FirstDivisionChar;
+			Console.SetCursorPosition(0, top);
+			for (int i = 1; i <= steps; i++) Console.Write(level1Char);
 		}
+
+		#endregion
+
 	}
 }
