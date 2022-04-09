@@ -19,6 +19,7 @@ namespace LoadingSimulator
 			const char ThirdDivisionChar = '\u2593';
 			const char SecondDivisionChar = '\u2592';
 			const char FirstDivisionChar = '\u2591';
+			Console.CursorVisible = false;
 
 			#endregion
 
