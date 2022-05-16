@@ -20,7 +20,8 @@ namespace Heroes_of_the_worm
 			MagicalAttacks.Add(new Attack("Fireball", Attack.AttackType.Magical, 30, 1000));
 			MagicalAttacks.Add(new Attack("Meteorite", Attack.AttackType.Magical, 50, 1000));
 
-			
+			List<Neutral> Neutrals = new List<Neutral>();
+			Neutrals.Add(new Neutral("Cactus",100));
 
 			List<Hero> Heroes = new List<Hero>();
 			Heroes.Add(new Hero("Worm", Hero.HeroType.Mage, 75 , PhysicalAttacks[0], MagicalAttacks[0]));
@@ -44,6 +45,7 @@ namespace Heroes_of_the_worm
 			{
 				Heroes[challenger].Fight(Heroes[reciever]);
 				Heroes[reciever].Fight(Heroes[challenger]);
+				//Heroes[challenger].Fight(Neutrals[0]);
 			}
 
 			

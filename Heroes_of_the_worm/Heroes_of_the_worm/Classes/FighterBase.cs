@@ -7,10 +7,18 @@ namespace Heroes_of_the_worm.Classes
 	{
 		private const int LowestDelay = 1000;
 		private const int HighestDelay = 5000;
-		private const int CritChance = 0;
+		private const int CritChance = 2;
 		public string Name { get; protected set; } = "Unknown";
 		public int MaxHp { get; protected set; } = 69;
 		public int CurrentHp { get; protected set; } = 69;
+		public Attack PhysicalAttack { get; protected set; } = new Attack("", Attack.AttackType.None, 0, 0);
+		public Attack MagicalAttack { get; protected set; } = new Attack("", Attack.AttackType.None, 0, 0);
+		public Hero.HeroType Type { get; protected set; } = Hero.HeroType.None;
+		public Hero.HeroState State { get; protected set; } = Hero.HeroState.None;
+
+		public Defence PhysicalDefence { get; protected set; } = new Defence("", Defence.DefenceType.None, 0, 0);
+
+		public Defence MagicalDefence { get; protected set; } = new Defence("", Defence.DefenceType.None, 0, 0);
 
 		public FighterBase(string name, int maxHp)
 		{
@@ -153,7 +161,7 @@ namespace Heroes_of_the_worm.Classes
 				private void kill(FighterBase hero)
 				{
 						hero.CurrentHp = 0;
-						hero.State = FighterBaseState.Dead;
+						hero.State = Hero.HeroState.Dead;
 				}
 
 				private void printVictoryMessage(FighterBase hero)
@@ -180,7 +188,7 @@ namespace Heroes_of_the_worm.Classes
 
 				private static bool heroIsDead(FighterBase hero)
 				{
-						if (hero.State == FighterBaseState.Dead)
+						if (hero.State == Hero.HeroState.Dead)
 						{
 								return true;
 						}
