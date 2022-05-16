@@ -28,9 +28,13 @@ namespace PingyWingy
 
 			options.DontFragment = true;
 
+			Console.CursorVisible = false;
+
+			int hroch = 1;
 
 			while (true)
 			{
+				hroch = FailedPings + SuccessfullPings;
 				PingReply reply = pingSender.Send(Destination, Timeout, buffer, options);
 				if (reply.Status == IPStatus.Success)
 				{
@@ -40,17 +44,18 @@ namespace PingyWingy
 					if (listOfPings.Count == ListLength)
 					{
 						listOfPings.RemoveAt(0);
-						for (int hroch = 0; hroch < listOfPings.Count - 1; hroch++)
+						for (int zirafa = 0; zirafa < listOfPings.Count - 1; zirafa++)
 						{
-							listOfPings[hroch] = listOfPings[hroch + 1];
+							listOfPings[zirafa] = listOfPings[zirafa + 1];
 						}
-
-						listOfPings.Insert(24,
-							$"Reply from {reply.Address.ToString()}: bytes={reply.Buffer.Length} time={reply.RoundtripTime}ms TTL={reply.Options.Ttl}");
+						
+						listOfPings.Insert(24, $"Reply from {reply.Address.ToString()}: bytes={reply.Buffer.Length} time={reply.RoundtripTime}ms TTL={reply.Options.Ttl}");
 					}
 
 					else
 						listOfPings.Add($"Reply from {reply.Address.ToString()}: bytes={reply.Buffer.Length} time={reply.RoundtripTime}ms TTL={reply.Options.Ttl}");
+					
+						
 
 					Console.SetCursorPosition(0,0);
 
@@ -58,9 +63,9 @@ namespace PingyWingy
 					Console.WriteLine($"Pinging {Destination} [{reply.Address}] with {reply.Buffer.Length} bytes of data:");
 
 
-					for (int hroch = 0; hroch < listOfPings.Count; hroch++)
+					for (int i =0; i < listOfPings.Count; i++)
 					{
-						Console.WriteLine($"{hroch + 1}:\t{listOfPings[hroch]}");
+						Console.WriteLine($"{hroch - i + 1}:\t{listOfPings[i]}");
 					}
 
 					Thread.Sleep(200);
@@ -68,6 +73,14 @@ namespace PingyWingy
 				else
 				{
 					FailedPings++;
+					if (listOfPings.Count == ListLength)
+					{
+						listOfPings.RemoveAt(0);
+						listOfPings.Insert(24, $"No reply!");
+					}
+
+					else
+						listOfPings.Add($"No reply!");
 				}
 			}
 		}
