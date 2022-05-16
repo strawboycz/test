@@ -45,10 +45,13 @@ namespace Heroes_of_the_worm
 			{
 				Heroes[challenger].Fight(Heroes[reciever]);
 				Heroes[reciever].Fight(Heroes[challenger]);
-				//Heroes[challenger].Fight(Neutrals[0]);
+			}
+			while (!(Neutrals[0].State == Hero.HeroState.Dead || Heroes[reciever].State == Hero.HeroState.Dead))
+			{
+				Heroes[challenger].Fight(Neutrals[0]);
+				Neutrals[0].Fight(Heroes[challenger]);
 			}
 
-			
 		}
 
 		private static bool isNooneDead(List<Hero> Heroes, int challenger, int reciever)

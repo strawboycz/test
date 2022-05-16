@@ -20,6 +20,7 @@ namespace Heroes_of_the_worm.Classes
 
 		public Defence MagicalDefence { get; protected set; } = new Defence("", Defence.DefenceType.None, 0, 0);
 
+		public int ChanceToReflect { get; protected set; } = 0;
 		public FighterBase(string name, int maxHp)
 		{
 			Name = name;
@@ -28,6 +29,7 @@ namespace Heroes_of_the_worm.Classes
 
 				public void Fight(FighterBase whom)
 				{
+						Defence defence = new Defence("",Defence.DefenceType.None,0,0);
 						if (heroIsDead(whom))
 						{
 								printDeathMessage(whom);
@@ -42,32 +44,42 @@ namespace Heroes_of_the_worm.Classes
 								return;
 						}
 						printStatus(this, whom);
-
 						Random rnd = new Random(Convert.ToInt32(DateTime.Now.Second));
-
-						Attack attack = returnAttack(rnd);
-
-						Defence defence = returnDeffence(rnd, attack);
-
-						dealDmg(whom, attack, rnd, defence);
-
-
-						if (!shouldCrit(rnd))
-								printAttackMessage(this, whom, attack);
-						else
-								printCritAttackMessage(this, whom, attack);
-
-						if (defenceExists(defence))
+						if (this is Neutral)
 						{
-								printDefenceMessage(this, defence);
+							if(rnd.Next(1,100) <= this.ChanceToReflect)
+							 defence = returnDeffence(rnd, PhysicalAttack,whom);
+							 dealDmg(whom, PhysicalAttack, rnd, defence);
+							 printAttackMessage(this, whom, PhysicalAttack);
+						}
+						else
+						{
+							Attack attack = returnAttack(rnd);
+
+							 defence = returnDeffence(rnd, attack,whom);
+
+							dealDmg(whom, attack, rnd, defence);
+
+
+							if (!shouldCrit(rnd))
+								printAttackMessage(this, whom, attack);
+							else
+								printCritAttackMessage(this, whom, attack);
 						}
 
+						
+						if (defenceExists(defence))
+						{
+							printDefenceMessage(whom, defence);
+						}
+						
 						if (shouldKill(whom))
-								kill(whom);
+							kill(whom);
 						if (shouldKill(this))
-								kill(this);
+							kill(this);
 
 						Thread.Sleep(rnd.Next(LowestDelay, HighestDelay));
+						
 				}
 
 				private static bool defenceExists(Defence defence)
@@ -84,21 +96,21 @@ namespace Heroes_of_the_worm.Classes
 
 				}
 
-				private Defence returnDeffence(Random rnd, Attack attack)
+				private Defence returnDeffence(Random rnd, Attack attack,FighterBase hero)
 				{
 						Defence defence = new Defence("", Defence.DefenceType.None, 0, 0);
 						if (attack.Type == Attack.AttackType.Physical)
 						{
-								if (rnd.Next(1, 100) <= PhysicalDefence.Cooldown)
+								if (rnd.Next(1, 100) <= hero.PhysicalDefence.Cooldown)
 								{
-										defence = PhysicalDefence;
+										defence = hero.PhysicalDefence;
 								}
 						}
 						else
 						{
-								if (rnd.Next(1, 100) <= MagicalDefence.Cooldown)
+								if (rnd.Next(1, 100) <= hero.MagicalDefence.Cooldown)
 								{
-										defence = MagicalDefence;
+										defence = hero.MagicalDefence;
 								}
 						}
 						return defence;
